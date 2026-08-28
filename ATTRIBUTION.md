@@ -13,7 +13,7 @@
 ## 2. ui-ux-pro-max — 사용성·규칙 축
 - 출처: Next Level Builder, `nextlevelbuilder/ui-ux-pro-max-skill`
 - 라이선스: **MIT License** (Copyright (c) 2024 Next Level Builder)
-- 사용 범위: `references/ui-rules.md`(quick-reference 규칙 전체)와 `references/pre-delivery-checklist.md`(pro-rules)는 원문 규칙 텍스트를 보존하고 한국어 안내를 덧붙인 것. 원 스킬의 Python 검색 도구·CSV 데이터베이스·폰트 자산은 포함하지 않았습니다.
+- 사용 범위: 원 스킬의 사용성 규칙(접근성·터치·성능·레이아웃·폼·내비게이션)은 공감에듀테크 내부 디자인 계열이 보존하고 있습니다. **이 슬라이드 배포판에는 포함하지 않았습니다** — 화면 UI 전용이라 발표 자료에 해당하지 않습니다. 이 킷에 남은 것은 대비·간격·타이포 등 매체 무관 항목뿐이며 `references/craft-floor.md` 에 재작성되어 있습니다. 원 스킬의 Python 검색 도구·CSV 데이터베이스·폰트 자산은 포함하지 않았습니다.
 
 ## 3. taste-skill — 안티슬롭·리디자인 축 (v2.0에서 추가)
 - 출처: Leonxlnx, `Leonxlnx/taste-skill`
