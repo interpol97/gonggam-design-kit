@@ -46,6 +46,67 @@ body.dark{
 body.dark .slide{ letter-spacing:-.012em; }
 body.dark .body,body.dark .list li{ line-height:1.65; font-weight:420; }
 
+
+/* ══ 테마 프리셋 — <body class="t-소프트"> 처럼 붙인다 ══
+   공감에듀테크 디자인 프리셋(88종)에서 학원·교육에 맞는 것만 추렸다. */
+
+/* 밝은 초록·노랑 — 친근하고 화사. 초중등 학부모/학생 대상 */
+body.t-fresh{
+  --bg:#FFFFFF; --ink:#2B2B2B; --body:#4A4A4A; --muted:#8A8A8A; --line:#E8EDE4;
+  --accent:#3FA80B; --accent-soft:#EAF7E0; --warn:#E0A500;
+  --pop:#FFC800;                      /* 두 번째 강조 — 숫자·밑줄에만 */
+}
+/* 민트+블루 — 학습·성취. 중고등 */
+body.t-learn{
+  --bg:#FFFFFF; --ink:#1B1F27; --body:#3B4350; --muted:#6B7684; --line:#E3E9EF;
+  --accent:#0E9E7E; --accent-soft:#E2F5F0; --pop:#1865F2;
+}
+/* 코발트 블루 — 신뢰·입시. 설명회 기본값으로 무난 */
+body.t-trust{
+  --bg:#FFFFFF; --ink:#14181F; --body:#39424E; --muted:#6B7684; --line:#E4E9EF;
+  --accent:#1B5FD9; --accent-soft:#E7EFFC; --pop:#0EA5C6;
+}
+/* 한국 학원 레드 — 강한 주목. 모집·마감 고지에 */
+body.t-focus{
+  --bg:#FFFFFF; --ink:#102A43; --body:#3A4A5C; --muted:#627D98; --line:#E6EBF0;
+  --accent:#D8151F; --accent-soft:#FCEAEB; --pop:#F08C00;
+}
+/* 따뜻한 크림 — 부드럽고 화사. 초등·감성 */
+body.t-warm{
+  --bg:#FFFCF7; --ink:#2A2119; --body:#4B4034; --muted:#8B7D6C; --line:#EFE6D8;
+  --accent:#C2610F; --accent-soft:#FBEEDF; --pop:#E8A317;
+}
+:root{ --pop:var(--accent); }
+body.dark{ --pop:var(--accent); }
+
+/* 두 번째 강조 — 숫자·밑줄에만. 본문 색으로 쓰지 않는다 */
+.pop{color:var(--pop)}
+/* 형광펜 밑줄 — 강조를 굵기 대신 «자리»로 준다 */
+.mark{background:linear-gradient(transparent 62%, var(--accent-soft) 62%);
+  padding:0 .1em;border-radius:.06em}
+
+/* ══ 등장 — 저작된 한 순간. 장마다 다른 효과를 쓰지 않는다 ══ */
+@media (prefers-reduced-motion:no-preference){
+  .slide.in > *{animation:rise .62s cubic-bezier(.2,.7,.25,1) backwards}
+  .slide.in > *:nth-child(1){animation-delay:.04s}
+  .slide.in > *:nth-child(2){animation-delay:.13s}
+  .slide.in > *:nth-child(3){animation-delay:.21s}
+  .slide.in > *:nth-child(4){animation-delay:.28s}
+  .slide.in > *:nth-child(n+5){animation-delay:.34s}
+  .slide.in .list li{animation:rise .55s cubic-bezier(.2,.7,.25,1) backwards}
+  .slide.in .list li:nth-child(1){animation-delay:.22s}
+  .slide.in .list li:nth-child(2){animation-delay:.31s}
+  .slide.in .list li:nth-child(3){animation-delay:.40s}
+  .slide.in .list li:nth-child(4){animation-delay:.49s}
+  .slide.in .list li:nth-child(5){animation-delay:.58s}
+  .slide.in .mark{background-size:0 100%;background-repeat:no-repeat;
+    animation:swipe .5s .5s ease-out forwards}
+  @keyframes rise{from{opacity:0;transform:translateY(1.4cqw)}to{opacity:1;transform:none}}
+  @keyframes swipe{to{background-size:100% 100%}}
+  .prog{transition:width .5s ease-out}
+}
+@media print{ .slide.in > *,.slide.in .list li{animation:none!important} }
+
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:#0A0C0D;font-family:var(--sans)}
 body{display:flex;flex-direction:column;align-items:center;gap:2vh;padding:2vh 0}
@@ -177,7 +238,7 @@ tr.hi td:first-child{font-weight:700;color:var(--ink)}
 .hint{color:#5D6A6E}
 </style>
 </head>
-<body>
+<body class="t-trust">
 
 <!-- ══ 1. 표지 ══ -->
 <section class="slide cover">
@@ -190,7 +251,7 @@ tr.hi td:first-child{font-weight:700;color:var(--ink)}
 
 <!-- ══ 2. 한 문장 ══ -->
 <section class="slide statement">
-  <h2>중3까지 80점대였던 학생이<br>고1 첫 시험에서 <span class="accent">52점</span>을 받습니다.</h2>
+  <h2>중3까지 80점대였던 학생이<br>고1 첫 시험에서 <span class="mark">52점</span>을 받습니다.</h2>
   <p class="sub">난이도가 아니라 평가 체계가 바뀐 것입니다. 그런데 학생은 자기 탓으로 받아들입니다.</p>
   <div class="pageno">02</div><div class="prog" style="width:20%"></div>
 </section>
@@ -198,7 +259,7 @@ tr.hi td:first-child{font-weight:700;color:var(--ink)}
 <!-- ══ 3. 큰 숫자 ══ -->
 <section class="slide metric">
   <div class="num">68<small>%</small></div>
-  <div class="what">하위권 오답이 <span class="accent">어법</span>에 몰려 있습니다</div>
+  <div class="what">하위권 오답이 <span class="pop">어법</span>에 몰려 있습니다</div>
   <p class="note">같은 반 상위권은 같은 어법에서 12%였습니다. 실력 차이가 아니라 중등 과정에서 비어 있는 단원이 고1에서 드러난 것입니다.</p>
   <div class="pageno">03</div><div class="prog" style="width:30%"></div>
 </section>
@@ -244,7 +305,7 @@ tr.hi td:first-child{font-weight:700;color:var(--ink)}
 
 <!-- ══ 6. 도해 ══ -->
 <section class="slide diagram">
-  <h2 class="t-h2">점수가 아니라 <span class="accent">과정</span>을 보여드립니다</h2>
+  <h2 class="t-h2">점수가 아니라 <span class="mark">과정</span>을 보여드립니다</h2>
   <svg viewBox="0 0 900 220" role="img" aria-label="진단에서 통보까지의 흐름">
     <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>
@@ -303,7 +364,7 @@ tr.hi td:first-child{font-weight:700;color:var(--ink)}
   <div class="pageno">10</div><div class="prog" style="width:100%"></div>
 </section>
 
-<div class="nav">← → 이동 · <span class="hint">F 전체화면 · P 인쇄(PDF) · D 어두운 테마</span></div>
+<div class="nav">← → 이동 · <span class="hint">F 전체화면 · P 인쇄(PDF) · <b>T 테마 바꾸기</b> · D 어둡게</span></div>
 
 <script>
 const s=[...document.querySelectorAll('.slide')];let i=0;
@@ -314,9 +375,17 @@ addEventListener('keydown',e=>{
   if(e.key==='f'||e.key==='F')document.documentElement.requestFullscreen?.();
   if(e.key==='p'||e.key==='P'){e.preventDefault();print()}
   if(e.key==='d'||e.key==='D')document.body.classList.toggle('dark');
+  if(e.key==='t'||e.key==='T'){
+    const th=['','t-fresh','t-learn','t-trust','t-focus','t-warm'];
+    const cur=th.findIndex(c=>c&&document.body.classList.contains(c));
+    th.filter(Boolean).forEach(c=>document.body.classList.remove(c));
+    const nx=th[(cur+1)%th.length]; if(nx)document.body.classList.add(nx);
+  }
 });
 new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)i=s.indexOf(e.target)}),{threshold:.6}).observe;
-s.forEach(el=>new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)i=s.indexOf(e.target)}),{threshold:.6}).observe(el));
+s.forEach(el=>new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){i=s.indexOf(e.target);e.target.classList.add('in')}
+}),{threshold:.45}).observe(el));
 </script>
 </body>
 </html>
