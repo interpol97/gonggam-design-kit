@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>공감 PPT 킷 웨비나</title>
+<style>
+/* ══════════════════════════════════════════════════════════════
+   공감 슬라이드 뼈대 — 내용만 바꿔 쓴다
+   · 1280×720 기준, cqw 단위라 어떤 크기에서도 비율 유지
+   · ← → 또는 스페이스로 이동, F 전체화면, P 인쇄(PDF)
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── 토큰: 여기만 바꾸면 덱 전체가 바뀐다 ── */
+:root{
+  /* 밝은 테마 — 불 켠 강의실 기본값 */
+  --bg:#FBFBF9;          /* 종이 */
+  --ink:#14181C;         /* 제목 */
+  --body:#3D464E;        /* 본문 */
+  --muted:#77828B;       /* 보조 */
+  --line:#DFE3E0;        /* 괘선 */
+  --accent:#0B6B58;      /* 강조 — 한 곳에만 */
+  --accent-soft:#E3EFEB;
+  --warn:#9A5B14;
+
+  --sans:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,monospace;
+
+  /* 타이포 스케일 — cqw 기준. 1280px 폭에서 괄호 안 px */
+  --t-display:7.2cqw;   /* 92px  표지 */
+  --t-h1:5cqw;          /* 64px  장 제목 */
+  --t-h2:3.6cqw;        /* 46px  중제목 */
+  --t-lead:2.6cqw;      /* 33px  본문 강조 */
+  --t-body:2.2cqw;      /* 28px  본문 = 21pt. 이 아래로 내리지 않는다 */
+  --t-cap:1.5cqw;       /* 19px  주석 */
+  --t-tiny:1.15cqw;     /* 15px  쪽번호 */
+
+  --pad:7cqw;           /* 안전 여백 */
+}
+/* 어두운 테마 — 웨비나 화면공유용. <body class="dark"> */
+body.dark{
+  --bg:#0E1418; --ink:#EEF3F1; --body:#C3CDCE; 
+  --muted:#889599; --line:#242F35; --accent:#46C0A2; --accent-soft:#12302A;
+}
+/* 어두운 배경은 세 축을 함께 보정한다 — 줄간·자간·굵기 */
+body.dark .slide{ letter-spacing:-.012em; }
+body.dark .body,body.dark .list li{ line-height:1.65; font-weight:420; }
+
+
+/* ══ 테마 프리셋 14종 — T 키로 순환, <body class="t-xxx"> ══
+   공감에듀테크 디자인 프리셋 88종에서 «밝은 배경 + 선명한 강조» 만 추려
+   색상환을 고루 덮도록 골랐다. 전부 불 켠 강의실을 전제로 한 밝은 테마다.
+   --pop 은 두 번째 강조 — 숫자·형광펜에만 쓴다. 본문 색으로 쓰지 않는다. */
+
+/* ─ 초록 계열 ─ */
+body.t-fresh{ --bg:#FFFFFF; --ink:#2B2B2B; --body:#4A4A4A; --muted:#8A8A8A; --line:#E8EDE4;
+  --accent:#3FA80B; --accent-soft:#EAF7E0; --pop:#E5A800; }          /* 친근·화사 · 초중등 */
+body.t-sprout{ --bg:#FFFFFF; --ink:#1C2417; --body:#3F4A38; --muted:#7C8A73; --line:#E6EDE2;
+  --accent:#5A8F00; --accent-soft:#EDF5DF; --pop:#2F7A3E; }          /* 성장·자연 */
+body.t-mint{ --bg:#FFFFFF; --ink:#1B1F27; --body:#3B4350; --muted:#6B7684; --line:#E3E9EF;
+  --accent:#0E9E7E; --accent-soft:#E2F5F0; --pop:#1865F2; }          /* 학습·성취 · 중고등 */
+body.t-forest{ --bg:#FFFFFF; --ink:#12241C; --body:#334A40; --muted:#6E8479; --line:#E2EBE6;
+  --accent:#00624A; --accent-soft:#E3F0EB; --pop:#A8802E; }          /* 차분·정통 */
+
+/* ─ 파랑 계열 ─ */
+body.t-trust{ --bg:#FFFFFF; --ink:#14181F; --body:#39424E; --muted:#6B7684; --line:#E4E9EF;
+  --accent:#1B5FD9; --accent-soft:#E7EFFC; --pop:#0EA5C6; }          /* 신뢰·입시 · 설명회 기본 */
+body.t-clear{ --bg:#FFFFFF; --ink:#1A1D21; --body:#3C444D; --muted:#6E7A85; --line:#E5E9EE;
+  --accent:#0071E3; --accent-soft:#E6F1FD; --pop:#2997FF; }          /* 맑고 단정 */
+body.t-friendly{ --bg:#FFFFFF; --ink:#191F28; --body:#4E5968; --muted:#8B95A1; --line:#E5E8EB;
+  --accent:#2E75E8; --accent-soft:#E8F0FD; --pop:#00B2B2; }          /* 한국형 친근 */
+body.t-academy{ --bg:#FFFFFF; --ink:#1F1F1F; --body:#3E4750; --muted:#5E6D77; --line:#E4E9EE;
+  --accent:#0056D2; --accent-soft:#E6EEFB; --pop:#0F9D8C; }          /* 학술·정규 과정 */
+body.t-cobalt{ --bg:#FFFFFF; --ink:#101828; --body:#38424F; --muted:#697586; --line:#E3E8EF;
+  --accent:#0F62FE; --accent-soft:#E5EEFF; --pop:#7132F5; }          /* 선명·기술 */
+
+/* ─ 보라·자주 ─ */
+body.t-violet{ --bg:#FFFFFF; --ink:#16162B; --body:#3B3B57; --muted:#74748F; --line:#E7E7F2;
+  --accent:#5A50E8; --accent-soft:#EDECFD; --pop:#00A9C4; }          /* 세련·특강 */
+
+/* ─ 주황·노랑 ─ */
+body.t-sunrise{ --bg:#FFFCF7; --ink:#2A2119; --body:#4B4034; --muted:#8B7D6C; --line:#EFE6D8;
+  --accent:#C2610F; --accent-soft:#FBEEDF; --pop:#E8A317; }          /* 따뜻·화사 · 초등 */
+body.t-mango{ --bg:#FFFFFF; --ink:#2B1E12; --body:#4C3C2C; --muted:#8A7866; --line:#F0E7DC;
+  --accent:#E2560A; --accent-soft:#FDEDE2; --pop:#F5B301; }          /* 활기·모집 */
+
+/* ─ 빨강 계열 ─ */
+body.t-focus{ --bg:#FFFFFF; --ink:#102A43; --body:#3A4A5C; --muted:#627D98; --line:#E6EBF0;
+  --accent:#D8151F; --accent-soft:#FCEAEB; --pop:#F08C00; }          /* 주목 · 모집·마감 */
+body.t-coral{ --bg:#FFFFFF; --ink:#22181B; --body:#463539; --muted:#8A7379; --line:#F0E5E7;
+  --accent:#E0244B; --accent-soft:#FDE9ED; --pop:#FF7A45; }          /* 따뜻한 주목 */
+
+:root{ --pop:var(--accent); }
+body.dark{ --pop:var(--accent); }
+
+/* 두 번째 강조 — 숫자·밑줄에만. 본문 색으로 쓰지 않는다 */
+.pop{color:var(--pop)}
+/* 형광펜 밑줄 — 강조를 굵기 대신 «자리»로 준다 */
+.mark{background:linear-gradient(transparent 62%, var(--accent-soft) 62%);
+  padding:0 .1em;border-radius:.06em}
+
+
+/* ══ 웨비나 전용 — 목업·흐름도 ══ */
+.mockrow{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw;width:100%}
+.mock{background:var(--bg);border:1.5px solid var(--line);border-radius:.7cqw;
+  aspect-ratio:16/9;padding:1.4cqw;display:flex;flex-direction:column;gap:.5cqw;
+  box-shadow:0 .3cqw 1cqw -.4cqw rgba(0,0,0,.14);overflow:hidden}
+.mock .mt{font-size:1.35cqw;font-weight:800;color:var(--ink);line-height:1.2;letter-spacing:-.04em}
+.mock .mb{height:.42cqw;background:var(--line);border-radius:99px}
+.mock .mb.w70{width:70%} .mock .mb.w50{width:50%} .mock .mb.w85{width:85%}
+.mock .mnum{font-family:var(--mono);font-size:3.4cqw;font-weight:700;color:var(--accent);line-height:1;letter-spacing:-.05em}
+.mock .macc{height:.5cqw;background:var(--accent);border-radius:99px;width:34%}
+.mock.dark-mock{background:var(--ink)} .mock.dark-mock .mt{color:var(--bg)}
+.mocklab{font-family:var(--mono);font-size:1.1cqw;color:var(--muted);margin-top:.7cqw;text-align:center}
+
+/* 대화 목업 — 코워크가 묻는 장면 */
+.chat{display:flex;flex-direction:column;gap:1.1cqw;width:100%;max-width:74cqw}
+.bub{padding:1.3cqw 1.8cqw;border-radius:1.1cqw;font-size:1.75cqw;line-height:1.5;max-width:78%}
+.bub.ai{background:var(--accent-soft);color:var(--ink);border-bottom-left-radius:.3cqw;align-self:flex-start}
+.bub.me{background:var(--ink);color:var(--bg);border-bottom-right-radius:.3cqw;align-self:flex-end}
+.bub b{font-weight:750}
+.bub .opts{display:flex;flex-wrap:wrap;gap:.5cqw;margin-top:.9cqw}
+.bub .opt{font-size:1.45cqw;background:var(--bg);border:1px solid var(--accent);color:var(--accent);
+  border-radius:99px;padding:.4cqw 1.1cqw;font-weight:600}
+
+/* 단계 흐름 */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1.2cqw;width:100%;align-items:stretch}
+.step{background:var(--bg);border:1.5px solid var(--line);border-radius:.7cqw;padding:1.5cqw 1.2cqw;
+  display:flex;flex-direction:column;gap:.6cqw}
+.step.on{border-color:var(--accent);background:var(--accent-soft)}
+.step .sn{font-family:var(--mono);font-size:1.2cqw;color:var(--muted);font-weight:700}
+.step.on .sn{color:var(--accent)}
+.step .st{font-size:1.75cqw;font-weight:750;color:var(--ink);line-height:1.25;letter-spacing:-.04em}
+.step .sd{font-size:1.35cqw;color:var(--muted);line-height:1.45}
+
+/* 주제 카드 — 설정값을 보이는 표 */
+.cfg{display:grid;grid-template-columns:auto 1fr;gap:.7cqw 1.8cqw;font-size:1.75cqw;align-items:baseline;margin-top:.4cqw}
+.cfg dt{font-family:var(--mono);font-size:1.25cqw;color:var(--muted);letter-spacing:.06em;padding-top:.3cqw}
+.cfg dd{color:var(--body);line-height:1.4}
+.cfg dd b{color:var(--ink);font-weight:750}
+.swatch{display:inline-block;width:1.4cqw;height:1.4cqw;border-radius:50%;vertical-align:-.15cqw;margin-right:.5cqw;border:1px solid rgba(0,0,0,.12)}
+
+/* 설치 3갈래 */
+.ways{display:grid;grid-template-columns:repeat(3,1fr);gap:2.2cqw;width:100%}
+.way{display:flex;flex-direction:column;gap:.8cqw}
+.way .wn{font-family:var(--mono);font-size:1.2cqw;color:var(--accent);font-weight:700;letter-spacing:.1em}
+.way .wt{font-size:2.1cqw;font-weight:800;color:var(--ink);letter-spacing:-.04em;line-height:1.2}
+.way .wd{font-size:1.5cqw;color:var(--muted);line-height:1.5}
+.way code{font-family:var(--mono);font-size:1.25cqw;background:var(--accent-soft);color:var(--ink);
+  padding:.5cqw .8cqw;border-radius:.4cqw;display:block;line-height:1.6;word-break:break-all}
+.tree{font-family:var(--mono);font-size:1.5cqw;line-height:1.75;color:var(--body);white-space:pre}
+.tree b{color:var(--accent);font-weight:700}
+
+/* ══ 등장 — 저작된 한 순간. 장마다 다른 효과를 쓰지 않는다 ══ */
+@media (prefers-reduced-motion:no-preference){
+  .slide.in > *{animation:rise .62s cubic-bezier(.2,.7,.25,1) backwards}
+  .slide.in > *:nth-child(1){animation-delay:.04s}
+  .slide.in > *:nth-child(2){animation-delay:.13s}
+  .slide.in > *:nth-child(3){animation-delay:.21s}
+  .slide.in > *:nth-child(4){animation-delay:.28s}
+  .slide.in > *:nth-child(n+5){animation-delay:.34s}
+  .slide.in .list li{animation:rise .55s cubic-bezier(.2,.7,.25,1) backwards}
+  .slide.in .list li:nth-child(1){animation-delay:.22s}
+  .slide.in .list li:nth-child(2){animation-delay:.31s}
+  .slide.in .list li:nth-child(3){animation-delay:.40s}
+  .slide.in .list li:nth-child(4){animation-delay:.49s}
+  .slide.in .list li:nth-child(5){animation-delay:.58s}
+  .slide.in .mark{background-size:0 100%;background-repeat:no-repeat;
+    animation:swipe .5s .5s ease-out forwards}
+  @keyframes rise{from{opacity:0;transform:translateY(1.4cqw)}to{opacity:1;transform:none}}
+  @keyframes swipe{to{background-size:100% 100%}}
+  .prog{transition:width .5s ease-out}
+}
+@media print{ .slide.in > *,.slide.in .list li{animation:none!important} }
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0A0C0D;font-family:var(--sans)}
+body{display:flex;flex-direction:column;align-items:center;gap:2vh;padding:2vh 0}
+
+/* ── 슬라이드 컨테이너 ── */
+.slide{
+  container-type:inline-size;
+  position:relative;
+  width:min(96vw, calc((100vh - 6vh) * 16 / 9));
+  aspect-ratio:16/9;
+  background:var(--bg);
+  color:var(--body);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  padding:var(--pad);
+  letter-spacing:-.028em;
+  word-break:keep-all;      /* 한글 어절 유지 — 제목이 한가운데서 안 잘린다 */
+  overflow-wrap:anywhere;   /* 긴 영문·URL 탈출구 */
+  box-shadow:0 2px 4px rgba(0,0,0,.3),0 24px 60px -20px rgba(0,0,0,.55);
+}
+@media print{
+  html,body{background:#fff;padding:0;gap:0}
+  .slide{width:100%;height:100vh;box-shadow:none;page-break-after:always;break-after:page}
+  .nav,.hint{display:none}
+}
+
+h1,h2,h3{color:var(--ink);line-height:1.14;letter-spacing:-.05em;font-weight:800;text-wrap:balance}
+.t-display{font-size:var(--t-display);line-height:1.04;letter-spacing:-.058em;font-weight:850}
+.t-h1{font-size:var(--t-h1)}
+.t-h2{font-size:var(--t-h2)}
+.lead{font-size:var(--t-lead);line-height:1.5;color:var(--body);max-width:36ch}
+.body{font-size:var(--t-body);line-height:1.6;color:var(--body);max-width:40ch}
+.cap{font-size:var(--t-cap);color:var(--muted);line-height:1.5}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.accent{color:var(--accent)}
+strong{font-weight:750;color:var(--ink)}
+
+/* 쪽번호 — 읽으라고 있는 게 아니다 */
+.pageno{position:absolute;right:var(--pad);bottom:calc(var(--pad) * .55);
+  font-family:var(--mono);font-size:var(--t-tiny);color:var(--muted);opacity:.75}
+/* 진행 막대 */
+.prog{position:absolute;left:0;bottom:0;height:.35cqw;background:var(--accent);opacity:.9}
+
+/* ══ 레이아웃 1. 표지 ══ */
+.cover{justify-content:flex-end;gap:2.4cqw}
+.cover .kicker{font-family:var(--mono);font-size:var(--t-cap);letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent)}
+.cover .meta{display:flex;gap:2.5cqw;font-size:var(--t-cap);color:var(--muted);
+  border-top:1px solid var(--line);padding-top:1.6cqw;margin-top:1cqw}
+
+/* ══ 레이아웃 2. 한 문장 ══ */
+.statement{justify-content:center;align-items:flex-start}
+.statement h2{font-size:var(--t-h1);max-width:20ch}
+.statement .sub{margin-top:2.4cqw;font-size:var(--t-lead);color:var(--muted);max-width:34ch}
+
+/* ══ 레이아웃 3. 큰 숫자 ══ */
+.metric{justify-content:center;gap:1.4cqw}
+.metric .num{font-family:var(--mono);font-size:16cqw;line-height:.86;font-weight:700;
+  color:var(--ink);letter-spacing:-.06em}
+.metric .num small{font-size:.32em;color:var(--muted);font-weight:500;letter-spacing:-.02em}
+.metric .what{font-size:var(--t-h2);color:var(--ink);font-weight:700;max-width:26ch}
+.metric .note{font-size:var(--t-cap);color:var(--muted);max-width:40ch;margin-top:.6cqw}
+
+/* ══ 레이아웃 4. 2단 비교 ══ */
+.split{justify-content:center;gap:3.4cqw}
+.split .cols{display:grid;grid-template-columns:1fr 1px 1fr;gap:3.6cqw;align-items:start}
+.split .rule{background:var(--line);align-self:stretch}
+.split .col h3{font-size:var(--t-h2);margin-bottom:1.6cqw}
+.split .col .tag{font-family:var(--mono);font-size:var(--t-tiny);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.8cqw}
+.split .col.on h3{color:var(--accent)}
+.split .col ul{list-style:none;display:flex;flex-direction:column;gap:1.1cqw}
+.split .col li{font-size:var(--t-body);line-height:1.45;color:var(--body)}
+
+/* ══ 레이아웃 5. 항목 ══ */
+.list-slide{justify-content:center;gap:3cqw}
+.list{list-style:none;display:flex;flex-direction:column;gap:2cqw}
+.list li{display:grid;grid-template-columns:auto 1fr;gap:2.2cqw;align-items:baseline;
+  font-size:var(--t-lead);line-height:1.4;color:var(--body)}
+.list li .n{font-family:var(--mono);font-size:var(--t-cap);color:var(--accent);font-weight:700;
+  padding-top:.5cqw}
+.list li b{color:var(--ink);font-weight:750}
+
+/* ══ 레이아웃 6. 표 ══ */
+.table-slide{justify-content:center;gap:2.6cqw}
+table{width:100%;border-collapse:collapse;font-size:var(--t-body)}
+th,td{text-align:left;padding:1.5cqw 1.2cqw;border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:var(--t-tiny);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;border-bottom:1.5px solid var(--ink)}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;color:var(--ink)}
+tr.hi td{background:var(--accent-soft)}
+tr.hi td:first-child{font-weight:700;color:var(--ink)}
+
+/* ══ 레이아웃 7. 인용 ══ */
+.quote{justify-content:center}
+.quote blockquote{font-size:var(--t-h2);line-height:1.35;color:var(--ink);font-weight:650;
+  max-width:24ch;letter-spacing:-.04em}
+.quote .who{margin-top:2.4cqw;font-size:var(--t-cap);color:var(--muted)}
+.quote .who b{display:block;color:var(--body);font-size:var(--t-body);font-weight:650;margin-bottom:.3cqw}
+
+/* ══ 레이아웃 8. 섹션 전환 ══ */
+.section-break{justify-content:center;background:var(--ink)}
+.section-break h2{color:var(--bg);font-size:var(--t-display);max-width:14ch}
+.section-break .idx{font-family:var(--mono);font-size:var(--t-cap);letter-spacing:.2em;
+  color:var(--accent);margin-bottom:2cqw}
+.section-break .pageno{color:rgba(255,255,255,.4)}
+
+/* ══ 레이아웃 9. 도해 ══ */
+.diagram{justify-content:center;gap:2.8cqw}
+.diagram svg{width:100%;height:auto;max-height:52cqw;display:block}
+.dg-box{fill:var(--bg);stroke:var(--line);stroke-width:1.5}
+.dg-box-on{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2}
+.dg-t{font-family:var(--sans);font-size:15px;font-weight:700;fill:var(--ink);
+  text-anchor:middle;dominant-baseline:central;letter-spacing:-.02em}
+.dg-s{font-family:var(--sans);font-size:12px;fill:var(--muted);text-anchor:middle}
+.dg-arrow{stroke:var(--muted);stroke-width:1.6;fill:none;marker-end:url(#ah)}
+
+/* ══ 레이아웃 10. 마무리 ══ */
+.closing{justify-content:center;align-items:center;text-align:center;background:var(--ink);gap:3cqw}
+.closing h2{color:var(--bg);font-size:var(--t-h1);max-width:18ch}
+.closing .cta{display:inline-flex;align-items:center;gap:1.2cqw;
+  background:var(--accent);color:#fff;font-size:var(--t-lead);font-weight:700;
+  padding:1.6cqw 3.2cqw;border-radius:.7cqw;letter-spacing:-.03em}
+.closing .sub{color:rgba(255,255,255,.62);font-size:var(--t-body)}
+.closing .pageno{color:rgba(255,255,255,.35)}
+
+/* 발표 도구 */
+.nav{position:fixed;bottom:1.4vh;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:12px;color:#7C8A8E;background:rgba(0,0,0,.55);
+  padding:6px 14px;border-radius:99px;backdrop-filter:blur(6px);z-index:9}
+.hint{color:#5D6A6E}
+</style>
+</head>
+<body class="t-trust">
+
+
+<!-- 01 표지 -->
+<section class="slide cover">
+  <div class="kicker">공감에듀테크 무료 웨비나</div>
+  <h1 class="t-display">AI가 만든 PPT는<br>왜 다 비슷할까</h1>
+  <p class="lead">클로드에게 «판정 기준»을 쥐여 주는 법 — 공감 PPT 킷</p>
+  <div class="meta"><span>공감에듀테크</span><span class="mono">2026</span><span>학원 원장 대상</span></div>
+  <div class="pageno">01</div><div class="prog" style="width:5%"></div>
+</section>
+
+<!-- 02 문제 -->
+<section class="slide statement">
+  <h2>“PPT 만들어줘”라고 하면<br>늘 <span class="mark">같은 것</span>이 나옵니다.</h2>
+  <p class="sub">제목 위 작은 대문자 라벨, 아이콘 카드 세 개, 그라데이션, 이모지.
+  잘못 만든 건 아닌데 어디서 본 것 같습니다.</p>
+  <div class="pageno">02</div><div class="prog" style="width:10%"></div>
+</section>
+
+<!-- 03 진짜 이유 -->
+<section class="slide metric">
+  <div class="num">0<small>개</small></div>
+  <div class="what">AI가 가진 <span class="pop">판정 기준</span>의 수</div>
+  <p class="note">만드는 법은 압니다. 그런데 «뒷자리에서 읽히는가», «한 장에 메시지가 하나인가»를
+  판정할 기준이 없습니다. 그래서 안 틀리되 밋밋한 것이 나옵니다.</p>
+  <div class="pageno">03</div><div class="prog" style="width:15%"></div>
+</section>
+
+<!-- 04 섹션 -->
+<section class="slide section-break">
+  <div class="idx">01 / 03</div><h2>스킬 세팅</h2>
+  <div class="pageno">04</div><div class="prog" style="width:20%"></div>
+</section>
+
+<!-- 05 무엇이 들었나 -->
+<section class="slide list-slide">
+  <h2 class="t-h2">킷에 들어 있는 것</h2>
+  <ul class="list">
+    <li><span class="n">01</span><span><b>gonggam-design</b> — 만들기 전 방향, 만들기 직전 품질 바닥선, 실눈 검사, 거부 목록</span></li>
+    <li><span class="n">02</span><span><b>gonggam-design-deck</b> — 슬라이드 규칙. 모드 3종, 본문 21pt 하한, 투사 환경, PPTX 규격</span></li>
+    <li><span class="n">03</span><span><b>korean-writing</b> — 번역투 40여 항목, 속 빈 형용사를 사실로 치환</span></li>
+    <li><span class="n">04</span><span><b>deck.html</b> — 복사해서 쓰는 16:9 뼈대. 테마 14종 · 레이아웃 10종</span></li>
+  </ul>
+  <div class="pageno">05</div><div class="prog" style="width:25%"></div>
+</section>
+
+<!-- 06 설치 3갈래 -->
+<section class="slide list-slide">
+  <h2 class="t-h2">설치 — 셋 중 하나만 하면 됩니다</h2>
+  <div class="ways">
+    <div class="way"><div class="wn">A · 가장 쉬움</div><div class="wt">파일 하나만</div>
+      <div class="wd">deck.html 을 대화에 올리고<br>“이 뼈대로 만들어줘”</div>
+      <div class="wd" style="color:var(--accent)">설치 절차 없음</div></div>
+    <div class="way"><div class="wn">B · 권장</div><div class="wt">Cowork 스킬</div>
+      <div class="wd">skills 안 세 폴더를<br>Cowork 스킬에 추가</div>
+      <code>skills/gonggam-design
+skills/gonggam-design-deck
+skills/korean-writing</code></div>
+    <div class="way"><div class="wn">C · 개발자</div><div class="wt">클로드 코드</div>
+      <div class="wd">플러그인으로 설치하면<br>업데이트가 자동입니다</div>
+      <code>/plugin marketplace add
+interpol97/gonggam-ppt-kit</code></div>
+  </div>
+  <div class="pageno">06</div><div class="prog" style="width:30%"></div>
+</section>
+
+<!-- 07 폴더 구조 -->
+<section class="slide list-slide">
+  <h2 class="t-h2">압축을 풀면 이렇게 생겼습니다</h2>
+  <div class="tree">gonggam-ppt-kit/
+├─ <b>templates/deck.html</b>        ← 이것만 써도 됩니다
+├─ skills/
+│   ├─ gonggam-design/          방향·품질 바닥선
+│   ├─ gonggam-design-deck/     슬라이드 규칙 · PPTX 규격
+│   └─ korean-writing/          한글 문체
+├─ README.md
+└─ ATTRIBUTION.md               라이선스 고지 (같이 두세요)</div>
+  <p class="cap">스킬을 안 넣어도 <b>deck.html 하나면</b> 테마와 레이아웃이 전부 따라옵니다.</p>
+  <div class="pageno">07</div><div class="prog" style="width:35%"></div>
+</section>
+
+<!-- 08 섹션 -->
+<section class="slide section-break">
+  <div class="idx">02 / 03</div><h2>어떻게 진행되나</h2>
+  <div class="pageno">08</div><div class="prog" style="width:40%"></div>
+</section>
+
+<!-- 09 5단계 -->
+<section class="slide list-slide">
+  <h2 class="t-h2">바로 만들지 않습니다</h2>
+  <div class="steps">
+    <div class="step on"><div class="sn">01</div><div class="st">소재 확인</div><div class="sd">올린 자료가 있으면 읽고 시작</div></div>
+    <div class="step on"><div class="sn">02</div><div class="st">한 번에 묻기</div><div class="sd">주제·모드·청중·임무·분량·색</div></div>
+    <div class="step"><div class="sn">03</div><div class="st">목차 승인</div><div class="sd">장표 만들기 전에 목차부터</div></div>
+    <div class="step"><div class="sn">04</div><div class="st">제작</div><div class="sd">뼈대를 채운다</div></div>
+    <div class="step"><div class="sn">05</div><div class="st">검수·전달</div><div class="sd">HTML · PDF · PPTX</div></div>
+  </div>
+  <p class="cap">다 만들고 뒤집는 것보다 <b>목차에서 고치는 편이 훨씬 쌉니다.</b></p>
+  <div class="pageno">09</div><div class="prog" style="width:45%"></div>
+</section>
+
+<!-- 10 팝업 대화 목업 -->
+<section class="slide list-slide">
+  <h2 class="t-h2">이렇게 물어봅니다</h2>
+  <div class="chat">
+    <div class="bub ai"><b>어떤 발표인가요?</b> 주제와 청중을 알려주시면 나머지는 제가 정하겠습니다.</div>
+    <div class="bub me">예비고1 학부모 설명회. 고교학점제 설명하고 상담 받으려고요.</div>
+    <div class="bub ai"><b>어떤 느낌이면 좋겠습니까?</b>
+      <div class="opts"><span class="opt">신뢰감 있게</span><span class="opt">친근하고 화사하게</span>
+      <span class="opt">학술적으로</span><span class="opt">따뜻하게</span><span class="opt">강하게 주목</span></div>
+    </div>
+    <div class="bub me">신뢰감 있게요. 25분 정도.</div>
+    <div class="bub ai">설득 덱 · 코발트블루 · <b>14장</b>으로 목차부터 보여드리겠습니다.</div>
+  </div>
+  <div class="pageno">10</div><div class="prog" style="width:50%"></div>
+</section>
+
+<!-- 11 목업 3종 -->
+<section class="slide list-slide">
+  <h2 class="t-h2">같은 내용, 다른 색 — <span class="mark">14가지</span></h2>
+  <div class="mockrow">
+    <div><div class="mock" style="--accent:#1B5FD9;--accent-soft:#E7EFFC">
+      <div class="mt">고교학점제,<br>무엇이 달라지나</div><div class="macc"></div>
+      <div class="mb w85"></div><div class="mb w70"></div><div class="mb w50"></div></div>
+      <div class="mocklab">신뢰감 있게 · trust</div></div>
+    <div><div class="mock" style="--accent:#3FA80B;--accent-soft:#EAF7E0">
+      <div class="mt">고교학점제,<br>무엇이 달라지나</div><div class="macc"></div>
+      <div class="mb w85"></div><div class="mb w70"></div><div class="mb w50"></div></div>
+      <div class="mocklab">친근하고 화사하게 · fresh</div></div>
+    <div><div class="mock" style="--accent:#D8151F;--accent-soft:#FCEAEB">
+      <div class="mt">고교학점제,<br>무엇이 달라지나</div><div class="macc"></div>
+      <div class="mb w85"></div><div class="mb w70"></div><div class="mb w50"></div></div>
+      <div class="mocklab">강하게 주목 · focus</div></div>
+  </div>
+  <p class="cap">색만 바뀌는 게 아니라 <b>글자 크기·여백·강조 위치가 함께</b> 움직입니다.</p>
+  <div class="pageno">11</div><div class="prog" style="width:55%"></div>
+</section>
+
+<!-- 12 무엇을 막는가 -->
+<section class="slide split">
+  <h2 class="t-h2">무엇을 <span class="pop">막는지</span>가 핵심입니다</h2>
+  <div class="cols">
+    <div class="col"><span class="tag">AI 기본값</span><h3>그냥 두면 나오는 것</h3>
+      <ul><li>제목 위 작은 대문자 라벨</li><li>아이콘 카드 세 개</li><li>이모지를 아이콘 대신</li>
+      <li>매 장 다른 전환 효과</li><li>악수·전구·오르는 화살표</li><li>홍길동 · 99.9% · 010-1234-5678</li></ul></div>
+    <div class="rule"></div>
+    <div class="col on"><span class="tag">킷을 넣으면</span><h3>대신 이렇게</h3>
+      <ul><li>제목이 스스로 무게를 지님</li><li>비대칭 배치·2단 비교</li><li>그린 아이콘 한 세트</li>
+      <li>전환은 하나로 통일</li><li>내용 없는 사진은 안 넣음</li><li>실제 있을 법한 값</li></ul></div>
+  </div>
+  <div class="pageno">12</div><div class="prog" style="width:60%"></div>
+</section>
+
+<!-- 13 섹션 -->
+<section class="slide section-break">
+  <div class="idx">03 / 03</div><h2>주제별로 어떻게 달라지나</h2>
+  <div class="pageno">13</div><div class="prog" style="width:65%"></div>
+</section>
+
+
+<!-- 14 주제 1 -->
+<section class="slide split">
+  <h2 class="t-h2">① 예비고1 <span class="mark">고교학점제</span> 안내</h2>
+  <div class="cols">
+    <div class="col"><span class="tag">킷이 정한 설정</span>
+      <dl class="cfg">
+        <dt>MODE</dt><dd><b>강의</b> — 제도를 «이해»시키는 게 목적</dd>
+        <dt>청중</dt><dd>중3 학부모 40명 · 저녁 강의실</dd>
+        <dt>임무</dt><dd>개별 진로상담 신청</dd>
+        <dt>테마</dt><dd><span class="swatch" style="background:#0056D2"></span>학술적으로 · academy</dd>
+        <dt>분량</dt><dd>30분 · <b>18장</b> (제도 설명은 장이 는다)</dd>
+      </dl></div>
+    <div class="rule"></div>
+    <div class="col on"><span class="tag">주력 레이아웃</span><h3>도해가 일한다</h3>
+      <ul><li><b>도해</b> — 학점 이수 구조를 상자와 화살표로</li>
+      <li><b>표</b> — 기존 교육과정 vs 학점제 비교</li>
+      <li><b>2단 비교</b> — 우리 아이에게 무엇이 달라지나</li>
+      <li>큰 숫자는 «졸업 이수학점 192»에 한 번만</li></ul></div>
+  </div>
+  <div class="pageno">14</div><div class="prog" style="width:70%"></div>
+</section>
+
+<!-- 15 주제 2 -->
+<section class="slide split">
+  <h2 class="t-h2">② 예비고1 <span class="mark">고교 선택</span> 설명회</h2>
+  <div class="cols">
+    <div class="col"><span class="tag">킷이 정한 설정</span>
+      <dl class="cfg">
+        <dt>MODE</dt><dd><b>설득</b> — 듣고 «결정»해야 한다</dd>
+        <dt>청중</dt><dd>중3 학부모 50명 · 불 켠 강당</dd>
+        <dt>임무</dt><dd>학교별 상담 예약</dd>
+        <dt>테마</dt><dd><span class="swatch" style="background:#1B5FD9"></span>신뢰감 있게 · trust</dd>
+        <dt>분량</dt><dd>25분 · <b>14장</b></dd>
+      </dl></div>
+    <div class="rule"></div>
+    <div class="col on"><span class="tag">주력 레이아웃</span><h3>비교가 본체다</h3>
+      <ul><li><b>2단 비교</b> — 일반고 / 특목·자사고를 같은 축으로</li>
+      <li><b>표</b> — 내신 유불리·교과 편성·통학</li>
+      <li><b>한 문장</b> — “학교를 고르는 게 아니라 3년을 고르는 것”</li>
+      <li>학교 실명 비교는 <b>근거 없이 쓰지 않는다</b></li></ul></div>
+  </div>
+  <div class="pageno">15</div><div class="prog" style="width:75%"></div>
+</section>
+
+<!-- 16 주제 3 -->
+<section class="slide split">
+  <h2 class="t-h2">③ ○○고 <span class="pop">수학 1등급</span> 대비 설명회</h2>
+  <div class="cols">
+    <div class="col"><span class="tag">킷이 정한 설정</span>
+      <dl class="cfg">
+        <dt>MODE</dt><dd><b>설득</b> + 근거 제시</dd>
+        <dt>청중</dt><dd>해당 고교 재학 학부모 25명</dd>
+        <dt>임무</dt><dd>진단 테스트 신청</dd>
+        <dt>테마</dt><dd><span class="swatch" style="background:#D8151F"></span>강하게 주목 · focus</dd>
+        <dt>분량</dt><dd>20분 · <b>12장</b></dd>
+      </dl></div>
+    <div class="rule"></div>
+    <div class="col on"><span class="tag">주력 레이아웃</span><h3>숫자가 논거다</h3>
+      <ul><li><b>큰 숫자</b> — 그 학교 1등급 인원, 출제 경향 한 가지</li>
+      <li><b>표</b> — 최근 3개 학기 단원별 출제 비중</li>
+      <li>성과 수치는 <b>표본·기간·정의</b>를 반드시 병기</li>
+      <li>표본 10명 미만이면 <b>백분율로 쓰지 않는다</b></li></ul></div>
+  </div>
+  <div class="pageno">16</div><div class="prog" style="width:80%"></div>
+</section>
+
+<!-- 17 주제 4·5 -->
+<section class="slide list-slide">
+  <h2 class="t-h2">④⑤ 같은 킷, 다른 설정</h2>
+  <div class="mockrow" style="grid-template-columns:1fr 1fr">
+    <div><div class="mock" style="--accent:#C2610F;--accent-soft:#FBEEDF">
+      <div class="mt">중2 첫 내신,<br>무엇부터 준비하나</div><div class="macc"></div>
+      <div class="mb w85"></div><div class="mb w70"></div></div>
+      <div class="mocklab">④ 중2 첫 내신 대비 · 강의 · sunrise · 16장</div></div>
+    <div><div class="mock" style="--accent:#E2560A;--accent-soft:#FDEDE2">
+      <div class="mt">겨울방학 4주,<br>어법 3단원을 채웁니다</div><div class="macc"></div>
+      <div class="mnum">4주</div></div>
+      <div class="mocklab">⑤ 겨울방학 특강 모집 · 설득 · mango · 10장</div></div>
+  </div>
+  <p class="cap"><b>④ 중2 첫 내신</b> — 처음 겪는 시험이라 «이해»가 목적. 따뜻한 색, 도해 중심.<br>
+  <b>⑤ 방학 특강 모집</b> — 짧고 강하게. 큰 숫자 하나와 마감일. 장수를 늘리지 않는다.</p>
+  <div class="pageno">17</div><div class="prog" style="width:85%"></div>
+</section>
+
+<!-- 18 효용 -->
+<section class="slide metric">
+  <div class="num">5<small>가지 주제</small></div>
+  <div class="what">설정만 바꿔서 <span class="pop">같은 킷</span>으로</div>
+  <p class="note">달라지는 것은 모드·색·장수·주력 레이아웃 넷뿐입니다.
+  판정 기준(본문 21pt · 한 장 한 메시지 · 거부 목록 · 한글 문체)은 다섯 주제 모두에 그대로 적용됩니다.</p>
+  <div class="pageno">18</div><div class="prog" style="width:90%"></div>
+</section>
+
+<!-- 19 검수 -->
+<section class="slide list-slide">
+  <h2 class="t-h2">만든 뒤 이걸 셉니다</h2>
+  <ul class="list">
+    <li><span class="n">01</span><span><b>실눈 검사</b> — 흐려 놓고 봤을 때 먼저 읽혀야 할 것이 먼저 읽히는가</span></li>
+    <li><span class="n">02</span><span><b>본문 21pt 이상</b> — 미만이면 폰트가 아니라 내용이 많은 것</span></li>
+    <li><span class="n">03</span><span><b>한 장에 요소 5개 이하</b> · 같은 레이아웃 3연속 금지</span></li>
+    <li><span class="n">04</span><span><b>마지막 장은 행동 하나</b> — 가장 오래 떠 있는 장입니다</span></li>
+    <li><span class="n">05</span><span><b>실제로 띄워 보고 뒤에서 읽어봤는가</b> — 이것만은 대체 불가</span></li>
+  </ul>
+  <div class="pageno">19</div><div class="prog" style="width:95%"></div>
+</section>
+
+<!-- 20 마무리 -->
+<section class="slide closing">
+  <h2>오늘 받아 가시는 것은<br>파일이 아니라 <span style="color:var(--accent)">기준</span>입니다</h2>
+  <div class="cta">공감 PPT 킷 받기</div>
+  <p class="sub">github.com/interpol97/gonggam-ppt-kit · 압축 파일도 함께 드립니다</p>
+  <div class="pageno">20</div><div class="prog" style="width:100%"></div>
+</section>
+
+<div class="nav">← → 이동 · <span class="hint">F 전체화면 · P 인쇄(PDF) · <b>T 테마</b> <span class="themename mono" style="color:#9FB0B4">trust</span> · D 어둡게</span></div>
+
+<script>
+const s=[...document.querySelectorAll('.slide')];let i=0;
+const go=n=>{i=Math.max(0,Math.min(s.length-1,n));s[i].scrollIntoView({behavior:'smooth',block:'center'})};
+addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1)}
+  if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(i-1)}
+  if(e.key==='f'||e.key==='F')document.documentElement.requestFullscreen?.();
+  if(e.key==='p'||e.key==='P'){e.preventDefault();print()}
+  if(e.key==='d'||e.key==='D')document.body.classList.toggle('dark');
+  if(e.key==='t'||e.key==='T'){
+    const th=['t-trust','t-fresh','t-sprout','t-mint','t-forest','t-clear','t-friendly','t-academy','t-cobalt','t-violet','t-sunrise','t-mango','t-focus','t-coral'];
+    const cur=th.findIndex(c=>document.body.classList.contains(c));
+    th.forEach(c=>document.body.classList.remove(c));
+    const nx=th[(cur+1)%th.length]; document.body.classList.add(nx);
+    const n=document.querySelector('.themename'); if(n)n.textContent=nx.slice(2);
+  }
+});
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)i=s.indexOf(e.target)}),{threshold:.6}).observe;
+s.forEach(el=>new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){i=s.indexOf(e.target);e.target.classList.add('in')}
+}),{threshold:.45}).observe(el));
+</script>
+</body>
+</html>

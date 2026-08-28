@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>모션 효과 5종</title>
+<style>
+/* ══════════════════════════════════════════════════════════════
+   공감 슬라이드 뼈대 — 내용만 바꿔 쓴다
+   · 1280×720 기준, cqw 단위라 어떤 크기에서도 비율 유지
+   · ← → 또는 스페이스로 이동, F 전체화면, P 인쇄(PDF)
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── 토큰: 여기만 바꾸면 덱 전체가 바뀐다 ── */
+:root{
+  /* 밝은 테마 — 불 켠 강의실 기본값 */
+  --bg:#FBFBF9;          /* 종이 */
+  --ink:#14181C;         /* 제목 */
+  --body:#3D464E;        /* 본문 */
+  --muted:#77828B;       /* 보조 */
+  --line:#DFE3E0;        /* 괘선 */
+  --accent:#0B6B58;      /* 강조 — 한 곳에만 */
+  --accent-soft:#E3EFEB;
+  --warn:#9A5B14;
+
+  --sans:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,monospace;
+
+  /* 타이포 스케일 — cqw 기준. 1280px 폭에서 괄호 안 px */
+  --t-display:7.2cqw;   /* 92px  표지 */
+  --t-h1:5cqw;          /* 64px  장 제목 */
+  --t-h2:3.6cqw;        /* 46px  중제목 */
+  --t-lead:2.6cqw;      /* 33px  본문 강조 */
+  --t-body:2.2cqw;      /* 28px  본문 = 21pt. 이 아래로 내리지 않는다 */
+  --t-cap:1.5cqw;       /* 19px  주석 */
+  --t-tiny:1.15cqw;     /* 15px  쪽번호 */
+
+  --pad:7cqw;           /* 안전 여백 */
+}
+/* 어두운 테마 — 웨비나 화면공유용. <body class="dark"> */
+body.dark{
+  --bg:#0E1418; --ink:#EEF3F1; --body:#C3CDCE; 
+  --muted:#889599; --line:#242F35; --accent:#46C0A2; --accent-soft:#12302A;
+}
+/* 어두운 배경은 세 축을 함께 보정한다 — 줄간·자간·굵기 */
+body.dark .slide{ letter-spacing:-.012em; }
+body.dark .body,body.dark .list li{ line-height:1.65; font-weight:420; }
+
+
+/* ══ 테마 프리셋 14종 — T 키로 순환, <body class="t-xxx"> ══
+   공감에듀테크 디자인 프리셋 88종에서 «밝은 배경 + 선명한 강조» 만 추려
+   색상환을 고루 덮도록 골랐다. 전부 불 켠 강의실을 전제로 한 밝은 테마다.
+   --pop 은 두 번째 강조 — 숫자·형광펜에만 쓴다. 본문 색으로 쓰지 않는다. */
+
+/* ─ 초록 계열 ─ */
+body.t-fresh{ --bg:#FFFFFF; --ink:#2B2B2B; --body:#4A4A4A; --muted:#8A8A8A; --line:#E8EDE4;
+  --accent:#3FA80B; --accent-soft:#EAF7E0; --pop:#E5A800; }          /* 친근·화사 · 초중등 */
+body.t-sprout{ --bg:#FFFFFF; --ink:#1C2417; --body:#3F4A38; --muted:#7C8A73; --line:#E6EDE2;
+  --accent:#5A8F00; --accent-soft:#EDF5DF; --pop:#2F7A3E; }          /* 성장·자연 */
+body.t-mint{ --bg:#FFFFFF; --ink:#1B1F27; --body:#3B4350; --muted:#6B7684; --line:#E3E9EF;
+  --accent:#0E9E7E; --accent-soft:#E2F5F0; --pop:#1865F2; }          /* 학습·성취 · 중고등 */
+body.t-forest{ --bg:#FFFFFF; --ink:#12241C; --body:#334A40; --muted:#6E8479; --line:#E2EBE6;
+  --accent:#00624A; --accent-soft:#E3F0EB; --pop:#A8802E; }          /* 차분·정통 */
+
+/* ─ 파랑 계열 ─ */
+body.t-trust{ --bg:#FFFFFF; --ink:#14181F; --body:#39424E; --muted:#6B7684; --line:#E4E9EF;
+  --accent:#1B5FD9; --accent-soft:#E7EFFC; --pop:#0EA5C6; }          /* 신뢰·입시 · 설명회 기본 */
+body.t-clear{ --bg:#FFFFFF; --ink:#1A1D21; --body:#3C444D; --muted:#6E7A85; --line:#E5E9EE;
+  --accent:#0071E3; --accent-soft:#E6F1FD; --pop:#2997FF; }          /* 맑고 단정 */
+body.t-friendly{ --bg:#FFFFFF; --ink:#191F28; --body:#4E5968; --muted:#8B95A1; --line:#E5E8EB;
+  --accent:#2E75E8; --accent-soft:#E8F0FD; --pop:#00B2B2; }          /* 한국형 친근 */
+body.t-academy{ --bg:#FFFFFF; --ink:#1F1F1F; --body:#3E4750; --muted:#5E6D77; --line:#E4E9EE;
+  --accent:#0056D2; --accent-soft:#E6EEFB; --pop:#0F9D8C; }          /* 학술·정규 과정 */
+body.t-cobalt{ --bg:#FFFFFF; --ink:#101828; --body:#38424F; --muted:#697586; --line:#E3E8EF;
+  --accent:#0F62FE; --accent-soft:#E5EEFF; --pop:#7132F5; }          /* 선명·기술 */
+
+/* ─ 보라·자주 ─ */
+body.t-violet{ --bg:#FFFFFF; --ink:#16162B; --body:#3B3B57; --muted:#74748F; --line:#E7E7F2;
+  --accent:#5A50E8; --accent-soft:#EDECFD; --pop:#00A9C4; }          /* 세련·특강 */
+
+/* ─ 주황·노랑 ─ */
+body.t-sunrise{ --bg:#FFFCF7; --ink:#2A2119; --body:#4B4034; --muted:#8B7D6C; --line:#EFE6D8;
+  --accent:#C2610F; --accent-soft:#FBEEDF; --pop:#E8A317; }          /* 따뜻·화사 · 초등 */
+body.t-mango{ --bg:#FFFFFF; --ink:#2B1E12; --body:#4C3C2C; --muted:#8A7866; --line:#F0E7DC;
+  --accent:#E2560A; --accent-soft:#FDEDE2; --pop:#F5B301; }          /* 활기·모집 */
+
+/* ─ 빨강 계열 ─ */
+body.t-focus{ --bg:#FFFFFF; --ink:#102A43; --body:#3A4A5C; --muted:#627D98; --line:#E6EBF0;
+  --accent:#D8151F; --accent-soft:#FCEAEB; --pop:#F08C00; }          /* 주목 · 모집·마감 */
+body.t-coral{ --bg:#FFFFFF; --ink:#22181B; --body:#463539; --muted:#8A7379; --line:#F0E5E7;
+  --accent:#E0244B; --accent-soft:#FDE9ED; --pop:#FF7A45; }          /* 따뜻한 주목 */
+
+:root{ --pop:var(--accent); }
+body.dark{ --pop:var(--accent); }
+
+/* 두 번째 강조 — 숫자·밑줄에만. 본문 색으로 쓰지 않는다 */
+.pop{color:var(--pop)}
+/* 형광펜 밑줄 — 강조를 굵기 대신 «자리»로 준다 */
+.mark{background:linear-gradient(transparent 62%, var(--accent-soft) 62%);
+  padding:0 .1em;border-radius:.06em}
+
+
+/* ══════ 모션 5종 데모 ══════ */
+@media (prefers-reduced-motion:no-preference){
+  /* ③ 숫자 카운트업 */
+  @property --cnt{syntax:'<integer>';initial-value:0;inherits:false}
+  .count{font-variant-numeric:tabular-nums}
+  .slide.in .count{animation:cnt 1.2s cubic-bezier(.15,.75,.3,1) forwards}
+  .slide.in .count::after{counter-reset:c var(--cnt);content:counter(c)}
+  @keyframes cnt{from{--cnt:0}to{--cnt:var(--to)}}
+
+  /* ④ 낱말 모핑 */
+  .morph{display:inline-grid;vertical-align:baseline;text-align:left;overflow:hidden;
+    height:1.06em;color:var(--accent)}
+  .morph span{grid-area:1/1;animation:morph 6s infinite}
+  .morph span:nth-child(2){animation-delay:2s}
+  .morph span:nth-child(3){animation-delay:4s}
+  @keyframes morph{
+    0%{opacity:0;transform:translateY(.5em)}
+    4%,30%{opacity:1;transform:none}
+    34%,100%{opacity:0;transform:translateY(-.5em)}
+  }
+  /* ⑤ 도해 연결선 */
+  .slide.in .draw{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+    animation:draw .45s ease-out forwards}
+  .slide.in .draw:nth-of-type(1){animation-delay:.5s}
+  .slide.in .draw:nth-of-type(2){animation-delay:.75s}
+  .slide.in .draw:nth-of-type(3){animation-delay:1.0s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .slide.in .dg-last{animation:lit .4s 1.4s ease-out forwards}
+  @keyframes lit{to{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.5}}
+}
+.fxlab{position:absolute;left:var(--pad);top:calc(var(--pad)*.5);
+  font-family:var(--mono);font-size:1.15cqw;letter-spacing:.14em;color:var(--accent);font-weight:700}
+.fxnote{font-size:1.45cqw;color:var(--muted);line-height:1.5;max-width:52cqw;margin-top:1cqw}
+.fxnote code{font-family:var(--mono);font-size:1.25cqw;background:var(--accent-soft);
+  color:var(--ink);padding:.15cqw .5cqw;border-radius:.3cqw}
+
+/* ══ 등장 — 저작된 한 순간. 장마다 다른 효과를 쓰지 않는다 ══ */
+@media (prefers-reduced-motion:no-preference){
+  .slide.in > *{animation:rise .62s cubic-bezier(.2,.7,.25,1) backwards}
+  .slide.in > *:nth-child(1){animation-delay:.04s}
+  .slide.in > *:nth-child(2){animation-delay:.13s}
+  .slide.in > *:nth-child(3){animation-delay:.21s}
+  .slide.in > *:nth-child(4){animation-delay:.28s}
+  .slide.in > *:nth-child(n+5){animation-delay:.34s}
+  .slide.in .list li{animation:rise .55s cubic-bezier(.2,.7,.25,1) backwards}
+  .slide.in .list li:nth-child(1){animation-delay:.22s}
+  .slide.in .list li:nth-child(2){animation-delay:.31s}
+  .slide.in .list li:nth-child(3){animation-delay:.40s}
+  .slide.in .list li:nth-child(4){animation-delay:.49s}
+  .slide.in .list li:nth-child(5){animation-delay:.58s}
+  .slide.in .mark{background-size:0 100%;background-repeat:no-repeat;
+    animation:swipe .5s .5s ease-out forwards}
+  @keyframes rise{from{opacity:0;transform:translateY(1.4cqw)}to{opacity:1;transform:none}}
+  @keyframes swipe{to{background-size:100% 100%}}
+  .prog{transition:width .5s ease-out}
+}
+@media print{ .slide.in > *,.slide.in .list li{animation:none!important} }
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0A0C0D;font-family:var(--sans)}
+body{display:flex;flex-direction:column;align-items:center;gap:2vh;padding:2vh 0}
+
+/* ── 슬라이드 컨테이너 ── */
+.slide{
+  container-type:inline-size;
+  position:relative;
+  width:min(96vw, calc((100vh - 6vh) * 16 / 9));
+  aspect-ratio:16/9;
+  background:var(--bg);
+  color:var(--body);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  padding:var(--pad);
+  letter-spacing:-.028em;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+  box-shadow:0 2px 4px rgba(0,0,0,.3),0 24px 60px -20px rgba(0,0,0,.55);
+}
+@media print{
+  html,body{background:#fff;padding:0;gap:0}
+  .slide{width:100%;height:100vh;box-shadow:none;page-break-after:always;break-after:page}
+  .nav,.hint{display:none}
+}
+
+h1,h2,h3{color:var(--ink);line-height:1.14;letter-spacing:-.05em;font-weight:800;text-wrap:balance}
+.t-display{font-size:var(--t-display);line-height:1.04;letter-spacing:-.058em;font-weight:850}
+.t-h1{font-size:var(--t-h1)}
+.t-h2{font-size:var(--t-h2)}
+.lead{font-size:var(--t-lead);line-height:1.5;color:var(--body);max-width:36ch}
+.body{font-size:var(--t-body);line-height:1.6;color:var(--body);max-width:40ch}
+.cap{font-size:var(--t-cap);color:var(--muted);line-height:1.5}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.accent{color:var(--accent)}
+strong{font-weight:750;color:var(--ink)}
+
+/* 쪽번호 — 읽으라고 있는 게 아니다 */
+.pageno{position:absolute;right:var(--pad);bottom:calc(var(--pad) * .55);
+  font-family:var(--mono);font-size:var(--t-tiny);color:var(--muted);opacity:.75}
+/* 진행 막대 */
+.prog{position:absolute;left:0;bottom:0;height:.35cqw;background:var(--accent);opacity:.9}
+
+/* ══ 레이아웃 1. 표지 ══ */
+.cover{justify-content:flex-end;gap:2.4cqw}
+.cover .kicker{font-family:var(--mono);font-size:var(--t-cap);letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent)}
+.cover .meta{display:flex;gap:2.5cqw;font-size:var(--t-cap);color:var(--muted);
+  border-top:1px solid var(--line);padding-top:1.6cqw;margin-top:1cqw}
+
+/* ══ 레이아웃 2. 한 문장 ══ */
+.statement{justify-content:center;align-items:flex-start}
+.statement h2{font-size:var(--t-h1);max-width:20ch}
+.statement .sub{margin-top:2.4cqw;font-size:var(--t-lead);color:var(--muted);max-width:34ch}
+
+/* ══ 레이아웃 3. 큰 숫자 ══ */
+.metric{justify-content:center;gap:1.4cqw}
+.metric .num{font-family:var(--mono);font-size:16cqw;line-height:.86;font-weight:700;
+  color:var(--ink);letter-spacing:-.06em}
+.metric .num small{font-size:.32em;color:var(--muted);font-weight:500;letter-spacing:-.02em}
+.metric .what{font-size:var(--t-h2);color:var(--ink);font-weight:700;max-width:26ch}
+.metric .note{font-size:var(--t-cap);color:var(--muted);max-width:40ch;margin-top:.6cqw}
+
+/* ══ 레이아웃 4. 2단 비교 ══ */
+.split{justify-content:center;gap:3.4cqw}
+.split .cols{display:grid;grid-template-columns:1fr 1px 1fr;gap:3.6cqw;align-items:start}
+.split .rule{background:var(--line);align-self:stretch}
+.split .col h3{font-size:var(--t-h2);margin-bottom:1.6cqw}
+.split .col .tag{font-family:var(--mono);font-size:var(--t-tiny);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.8cqw}
+.split .col.on h3{color:var(--accent)}
+.split .col ul{list-style:none;display:flex;flex-direction:column;gap:1.1cqw}
+.split .col li{font-size:var(--t-body);line-height:1.45;color:var(--body)}
+
+/* ══ 레이아웃 5. 항목 ══ */
+.list-slide{justify-content:center;gap:3cqw}
+.list{list-style:none;display:flex;flex-direction:column;gap:2cqw}
+.list li{display:grid;grid-template-columns:auto 1fr;gap:2.2cqw;align-items:baseline;
+  font-size:var(--t-lead);line-height:1.4;color:var(--body)}
+.list li .n{font-family:var(--mono);font-size:var(--t-cap);color:var(--accent);font-weight:700;
+  padding-top:.5cqw}
+.list li b{color:var(--ink);font-weight:750}
+
+/* ══ 레이아웃 6. 표 ══ */
+.table-slide{justify-content:center;gap:2.6cqw}
+table{width:100%;border-collapse:collapse;font-size:var(--t-body)}
+th,td{text-align:left;padding:1.5cqw 1.2cqw;border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:var(--t-tiny);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;border-bottom:1.5px solid var(--ink)}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;color:var(--ink)}
+tr.hi td{background:var(--accent-soft)}
+tr.hi td:first-child{font-weight:700;color:var(--ink)}
+
+/* ══ 레이아웃 7. 인용 ══ */
+.quote{justify-content:center}
+.quote blockquote{font-size:var(--t-h2);line-height:1.35;color:var(--ink);font-weight:650;
+  max-width:24ch;letter-spacing:-.04em}
+.quote .who{margin-top:2.4cqw;font-size:var(--t-cap);color:var(--muted)}
+.quote .who b{display:block;color:var(--body);font-size:var(--t-body);font-weight:650;margin-bottom:.3cqw}
+
+/* ══ 레이아웃 8. 섹션 전환 ══ */
+.section-break{justify-content:center;background:var(--ink)}
+.section-break h2{color:var(--bg);font-size:var(--t-display);max-width:14ch}
+.section-break .idx{font-family:var(--mono);font-size:var(--t-cap);letter-spacing:.2em;
+  color:var(--accent);margin-bottom:2cqw}
+.section-break .pageno{color:rgba(255,255,255,.4)}
+
+/* ══ 레이아웃 9. 도해 ══ */
+.diagram{justify-content:center;gap:2.8cqw}
+.diagram svg{width:100%;height:auto;max-height:52cqw;display:block}
+.dg-box{fill:var(--bg);stroke:var(--line);stroke-width:1.5}
+.dg-box-on{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2}
+.dg-t{font-family:var(--sans);font-size:15px;font-weight:700;fill:var(--ink);
+  text-anchor:middle;dominant-baseline:central;letter-spacing:-.02em}
+.dg-s{font-family:var(--sans);font-size:12px;fill:var(--muted);text-anchor:middle}
+.dg-arrow{stroke:var(--muted);stroke-width:1.6;fill:none;marker-end:url(#ah)}
+
+/* ══ 레이아웃 10. 마무리 ══ */
+.closing{justify-content:center;align-items:center;text-align:center;background:var(--ink);gap:3cqw}
+.closing h2{color:var(--bg);font-size:var(--t-h1);max-width:18ch}
+.closing .cta{display:inline-flex;align-items:center;gap:1.2cqw;
+  background:var(--accent);color:#fff;font-size:var(--t-lead);font-weight:700;
+  padding:1.6cqw 3.2cqw;border-radius:.7cqw;letter-spacing:-.03em}
+.closing .sub{color:rgba(255,255,255,.62);font-size:var(--t-body)}
+.closing .pageno{color:rgba(255,255,255,.35)}
+
+/* 발표 도구 */
+.nav{position:fixed;bottom:1.4vh;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:12px;color:#7C8A8E;background:rgba(0,0,0,.55);
+  padding:6px 14px;border-radius:99px;backdrop-filter:blur(6px);z-index:9}
+.hint{color:#5D6A6E}
+</style>
+</head>
+<body class="t-trust">
+
+
+<section class="slide cover">
+  <div class="kicker">공감 PPT 킷</div>
+  <h1 class="t-display">글자 모션<br>다섯 가지</h1>
+  <p class="lead">덱 하나에 <span class="mark">하나만</span> 고릅니다. 섞으면 소음이 됩니다.</p>
+  <div class="meta"><span class="mono">← → 로 넘기세요</span><span>T 테마 · D 어둡게</span></div>
+  <div class="pageno">00</div>
+</section>
+
+<section class="slide statement">
+  <div class="fxlab">① STAGGER RISE</div>
+  <h2>제목이 먼저,<br>부제가 다음,<br>항목이 마지막.</h2>
+  <p class="sub">요소마다 90ms 씩 늦게 아래에서 살짝 떠오릅니다. 이동 거리는 화면 폭의 1.4%.
+  길면 «날아오는» 느낌이 나서 싸구려로 읽힙니다.</p>
+  <p class="fxnote">기본값이라 아무것도 안 해도 적용됩니다. <code>cubic-bezier(.2,.7,.25,1)</code> · 0.6초</p>
+  <div class="pageno">01</div>
+</section>
+
+<section class="slide statement">
+  <div class="fxlab">② HIGHLIGHT SWIPE</div>
+  <h2>강조는 굵기가 아니라<br><span class="mark">자리</span>로 줍니다.</h2>
+  <p class="sub">글자 높이의 아래 38%만 덮는 띠가 0.5초 뒤 왼쪽에서 오른쪽으로 채워집니다.</p>
+  <p class="fxnote"><b>한 장에 한 낱말만.</b> 두 곳에 그으면 강조가 사라집니다.
+  굵게·색·형광펜을 한 낱말에 겹쳐 쓰지 않습니다.</p>
+  <div class="pageno">02</div>
+</section>
+
+<section class="slide metric">
+  <div class="fxlab">③ COUNT UP</div>
+  <div class="num"><span class="count" style="--to:68"></span><small>%</small></div>
+  <div class="what">숫자가 <span class="pop">논거</span>일 때만</div>
+  <p class="fxnote">0 부터 1.2초, 뒤로 갈수록 느려집니다. 등폭 숫자라 자릿수가 바뀌어도 흔들리지 않습니다.
+  <b>숫자가 흔들리면 신뢰가 깎입니다</b> — 자리 고정이 효과보다 중요합니다.<br>
+  성과 수치에는 쓰지 않습니다. 진지한 숫자를 장난스럽게 만듭니다.</p>
+  <div class="pageno">03</div>
+</section>
+
+<section class="slide statement">
+  <div class="fxlab">④ WORD MORPH</div>
+  <h2>고교학점제는<br><span class="morph"><span>선택</span><span>설계</span><span>전략</span></span>입니다.</h2>
+  <p class="sub">낱말만 위로 사라지고 아래에서 올라옵니다. 1.8초씩 머물고 전환은 0.4초.</p>
+  <p class="fxnote">가장 긴 낱말 폭으로 자리를 고정해 <b>오른쪽 문장이 밀리지 않게</b> 합니다.
+  세 낱말을 넘기지 않고, 표지나 섹션 전환에만 씁니다 — 발표 내내 움직이면 방해가 됩니다.</p>
+  <div class="pageno">04</div>
+</section>
+
+<section class="slide diagram">
+  <div class="fxlab">⑤ CONNECTOR DRAW</div>
+  <h2 class="t-h2">구조는 먼저, 흐름은 나중</h2>
+  <svg viewBox="0 0 900 200" role="img" aria-label="진단에서 통보까지">
+    <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>
+    <rect class="dg-box" x="10" y="55" width="180" height="86" rx="8"/>
+    <text class="dg-t" x="100" y="90">진단</text><text class="dg-s" x="100" y="117">빈 단원 찾기</text>
+    <rect class="dg-box" x="250" y="55" width="180" height="86" rx="8"/>
+    <text class="dg-t" x="340" y="90">보충</text><text class="dg-s" x="340" y="117">주 1회 4주</text>
+    <rect class="dg-box" x="490" y="55" width="180" height="86" rx="8"/>
+    <text class="dg-t" x="580" y="90">측정</text><text class="dg-s" x="580" y="117">3주마다</text>
+    <rect class="dg-box dg-last" x="730" y="55" width="160" height="86" rx="8"/>
+    <text class="dg-t" x="810" y="90">통보</text><text class="dg-s" x="810" y="117">가정으로</text>
+    <path class="dg-arrow draw" style="--len:48" d="M196 98 H244"/>
+    <path class="dg-arrow draw" style="--len:48" d="M436 98 H484"/>
+    <path class="dg-arrow draw" style="--len:48" d="M676 98 H724"/>
+  </svg>
+  <p class="fxnote">상자는 처음부터 다 보이고 <b>화살표만</b> 왼쪽부터 그려집니다.
+  상자가 하나씩 나타나면 청중이 전체 구조를 못 잡습니다. 마지막 화살표가 끝나면 도착 상자가 강조됩니다.</p>
+  <div class="pageno">05</div>
+</section>
+
+<section class="slide split">
+  <h2 class="t-h2">어떤 덱에 무엇을</h2>
+  <div class="cols">
+    <div class="col on"><span class="tag">쓸 것</span><h3>덱 하나에 하나</h3>
+      <ul><li><b>설득 덱</b> — ① 스태거 + ② 형광펜</li>
+      <li><b>강의 덱</b> — ① 스태거 + ⑤ 선 그리기</li>
+      <li><b>보고 덱</b> — ① 스태거만</li>
+      <li>숫자가 논거면 ③ 을 한 장에만</li>
+      <li>④ 모핑은 표지·전환 장에만</li></ul></div>
+    <div class="rule"></div>
+    <div class="col"><span class="tag">하지 않을 것</span><h3>즉시 들키는 것</h3>
+      <ul><li>장마다 다른 효과</li><li>글자 하나씩 튀어 오르기</li>
+      <li>회전·튕김·좌우 흔들림</li><li>무한 반복</li>
+      <li>배경 파티클·움직이는 그라데이션</li><li>한 장에 두 가지 효과</li></ul></div>
+  </div>
+  <div class="pageno">06</div>
+</section>
+
+<section class="slide closing">
+  <h2>인쇄와 PDF 에서는<br><span style="color:var(--accent)">전부 정지</span>합니다</h2>
+  <p class="sub">prefers-reduced-motion 도 존중합니다 · PPTX 대응표는 motion-prompts.md</p>
+  <div class="pageno">07</div>
+</section>
+
+<div class="nav">← → 이동 · <span class="hint">F 전체화면 · P 인쇄(PDF) · <b>T 테마</b> <span class="themename mono" style="color:#9FB0B4">trust</span> · D 어둡게</span></div>
+
+<script>
+const s=[...document.querySelectorAll('.slide')];let i=0;
+const go=n=>{i=Math.max(0,Math.min(s.length-1,n));s[i].scrollIntoView({behavior:'smooth',block:'center'})};
+addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1)}
+  if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(i-1)}
+  if(e.key==='f'||e.key==='F')document.documentElement.requestFullscreen?.();
+  if(e.key==='p'||e.key==='P'){e.preventDefault();print()}
+  if(e.key==='d'||e.key==='D')document.body.classList.toggle('dark');
+  if(e.key==='t'||e.key==='T'){
+    const th=['t-trust','t-fresh','t-sprout','t-mint','t-forest','t-clear','t-friendly','t-academy','t-cobalt','t-violet','t-sunrise','t-mango','t-focus','t-coral'];
+    const cur=th.findIndex(c=>document.body.classList.contains(c));
+    th.forEach(c=>document.body.classList.remove(c));
+    const nx=th[(cur+1)%th.length]; document.body.classList.add(nx);
+    const n=document.querySelector('.themename'); if(n)n.textContent=nx.slice(2);
+  }
+});
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)i=s.indexOf(e.target)}),{threshold:.6}).observe;
+s.forEach(el=>new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){i=s.indexOf(e.target);e.target.classList.add('in')}
+}),{threshold:.45}).observe(el));
+</script>
+</body>
+</html>
