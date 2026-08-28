@@ -2,13 +2,17 @@
 name: gonggam-design-deck
 description: "발표용 슬라이드를 만들거나 고칠 때 쓴다 — 학부모 설명회, 웨비나, 교육·강의 덱, 사업 소개, 제품 데모, 피치덱. 뒷자리에서 읽히고 발표자가 말로 채운다는 전제라 화면·문서와 규칙이 다르다. 'PPT 만들어줘', '슬라이드', '설명회 자료', '발표 자료', '웨비나 덱', '강의 슬라이드', '피치덱', '이 장표 좀 봐줘' 같은 요청에 사용한다. 시작할 때 gonggam-design 코어를 먼저 읽는다. 배포용 인쇄물 규격은 이 스킬 안에서 함께 다룬다. Presentation deck design."
 metadata:
-  version: 1.1.0-kit
+  version: 1.2.0-kit
 ---
 
 # 슬라이드 · 덱
 
 > **먼저 `gonggam-design` 코어를 읽는다.** 만들기 직전에 `gonggam-design/references/craft-floor.md`.
 > **뼈대는 `templates/deck.html`, 패턴은 `references/layouts.md`.** 처음부터 짜지 않는다.
+>
+> **덱 제작 요청이 들어오면 `references/intake.md` 의 순서대로 진행한다** —
+> 소재 확인 → 한 번에 묶어 묻기(주제·모드·청중·임무·분량 + 테마) → Design Read 확인 →
+> **목차 승인** → 제작 → 검수 → 발표/PDF/PPTX 중 필요한 것으로 넘김.
 > 기본 다이얼: **VARIANCE 5 / MOTION 1 / DENSITY 2**
 
 슬라이드는 **읽는 물건이 아니다.** 발표자가 말하고, 슬라이드는 그 말을 받친다.
