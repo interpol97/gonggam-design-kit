@@ -1,6 +1,6 @@
-# 공감 슬라이드 디자인 킷
+# 공감 PPT 킷
 
-발표 슬라이드를 **"AI가 만든 티" 없이** 만들기 위한 클로드 스킬 셋입니다.
+PPT·발표자료를 **"AI가 만든 티" 없이** 만들기 위한 클로드 스킬 셋입니다.
 
 클로드에게 "PPT 만들어줘"라고 하면 대개 비슷한 것이 나옵니다. 제목 위에 작은 대문자 라벨,
 아이콘 카드 세 개, 그라데이션, 이모지. 이 킷은 그런 기본값을 막고,
@@ -44,8 +44,8 @@ Mac       ~/.claude/skills/
 클로드 코드에서:
 
 ```
-/plugin marketplace add interpol97/gonggam-design-kit
-/plugin install gonggam-design-kit@gonggam-design-kit
+/plugin marketplace add interpol97/gonggam-ppt-kit
+/plugin install gonggam-ppt-kit@gonggam-ppt-kit
 ```
 
 ## 쓰는 법

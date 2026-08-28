@@ -1,15 +1,17 @@
 {
-  "name": "gonggam-design-kit",
-  "owner": { "name": "공감에듀테크" },
+  "name": "gonggam-ppt-kit",
+  "owner": {
+    "name": "공감에듀테크"
+  },
   "metadata": {
-    "description": "발표 슬라이드 디자인 스킬 킷",
+    "description": "공감 PPT 킷 — 발표자료 제작 스킬",
     "version": "1.0.0"
   },
   "plugins": [
     {
-      "name": "gonggam-design-kit",
-      "displayName": "공감 슬라이드 디자인 킷",
-      "description": "PPT·발표자료를 만들 때 클로드가 «AI가 만든 티» 없이 만들도록 하는 스킬 3개. 방향 잡기 → 슬라이드 규칙 → 한글 문체.",
+      "name": "gonggam-ppt-kit",
+      "displayName": "공감 PPT 킷",
+      "description": "PPT를 만들 때 클로드가 «AI가 만든 티» 없이 만들도록 하는 스킬 3개 + 복사해서 쓰는 16:9 슬라이드 뼈대.",
       "source": "./",
       "category": "Design"
     }
