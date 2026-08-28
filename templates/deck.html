@@ -47,35 +47,49 @@ body.dark .slide{ letter-spacing:-.012em; }
 body.dark .body,body.dark .list li{ line-height:1.65; font-weight:420; }
 
 
-/* ══ 테마 프리셋 — <body class="t-소프트"> 처럼 붙인다 ══
-   공감에듀테크 디자인 프리셋(88종)에서 학원·교육에 맞는 것만 추렸다. */
+/* ══ 테마 프리셋 14종 — T 키로 순환, <body class="t-xxx"> ══
+   공감에듀테크 디자인 프리셋 88종에서 «밝은 배경 + 선명한 강조» 만 추려
+   색상환을 고루 덮도록 골랐다. 전부 불 켠 강의실을 전제로 한 밝은 테마다.
+   --pop 은 두 번째 강조 — 숫자·형광펜에만 쓴다. 본문 색으로 쓰지 않는다. */
 
-/* 밝은 초록·노랑 — 친근하고 화사. 초중등 학부모/학생 대상 */
-body.t-fresh{
-  --bg:#FFFFFF; --ink:#2B2B2B; --body:#4A4A4A; --muted:#8A8A8A; --line:#E8EDE4;
-  --accent:#3FA80B; --accent-soft:#EAF7E0; --warn:#E0A500;
-  --pop:#FFC800;                      /* 두 번째 강조 — 숫자·밑줄에만 */
-}
-/* 민트+블루 — 학습·성취. 중고등 */
-body.t-learn{
-  --bg:#FFFFFF; --ink:#1B1F27; --body:#3B4350; --muted:#6B7684; --line:#E3E9EF;
-  --accent:#0E9E7E; --accent-soft:#E2F5F0; --pop:#1865F2;
-}
-/* 코발트 블루 — 신뢰·입시. 설명회 기본값으로 무난 */
-body.t-trust{
-  --bg:#FFFFFF; --ink:#14181F; --body:#39424E; --muted:#6B7684; --line:#E4E9EF;
-  --accent:#1B5FD9; --accent-soft:#E7EFFC; --pop:#0EA5C6;
-}
-/* 한국 학원 레드 — 강한 주목. 모집·마감 고지에 */
-body.t-focus{
-  --bg:#FFFFFF; --ink:#102A43; --body:#3A4A5C; --muted:#627D98; --line:#E6EBF0;
-  --accent:#D8151F; --accent-soft:#FCEAEB; --pop:#F08C00;
-}
-/* 따뜻한 크림 — 부드럽고 화사. 초등·감성 */
-body.t-warm{
-  --bg:#FFFCF7; --ink:#2A2119; --body:#4B4034; --muted:#8B7D6C; --line:#EFE6D8;
-  --accent:#C2610F; --accent-soft:#FBEEDF; --pop:#E8A317;
-}
+/* ─ 초록 계열 ─ */
+body.t-fresh{ --bg:#FFFFFF; --ink:#2B2B2B; --body:#4A4A4A; --muted:#8A8A8A; --line:#E8EDE4;
+  --accent:#3FA80B; --accent-soft:#EAF7E0; --pop:#E5A800; }          /* 친근·화사 · 초중등 */
+body.t-sprout{ --bg:#FFFFFF; --ink:#1C2417; --body:#3F4A38; --muted:#7C8A73; --line:#E6EDE2;
+  --accent:#5A8F00; --accent-soft:#EDF5DF; --pop:#2F7A3E; }          /* 성장·자연 */
+body.t-mint{ --bg:#FFFFFF; --ink:#1B1F27; --body:#3B4350; --muted:#6B7684; --line:#E3E9EF;
+  --accent:#0E9E7E; --accent-soft:#E2F5F0; --pop:#1865F2; }          /* 학습·성취 · 중고등 */
+body.t-forest{ --bg:#FFFFFF; --ink:#12241C; --body:#334A40; --muted:#6E8479; --line:#E2EBE6;
+  --accent:#00624A; --accent-soft:#E3F0EB; --pop:#A8802E; }          /* 차분·정통 */
+
+/* ─ 파랑 계열 ─ */
+body.t-trust{ --bg:#FFFFFF; --ink:#14181F; --body:#39424E; --muted:#6B7684; --line:#E4E9EF;
+  --accent:#1B5FD9; --accent-soft:#E7EFFC; --pop:#0EA5C6; }          /* 신뢰·입시 · 설명회 기본 */
+body.t-clear{ --bg:#FFFFFF; --ink:#1A1D21; --body:#3C444D; --muted:#6E7A85; --line:#E5E9EE;
+  --accent:#0071E3; --accent-soft:#E6F1FD; --pop:#2997FF; }          /* 맑고 단정 */
+body.t-friendly{ --bg:#FFFFFF; --ink:#191F28; --body:#4E5968; --muted:#8B95A1; --line:#E5E8EB;
+  --accent:#2E75E8; --accent-soft:#E8F0FD; --pop:#00B2B2; }          /* 한국형 친근 */
+body.t-academy{ --bg:#FFFFFF; --ink:#1F1F1F; --body:#3E4750; --muted:#5E6D77; --line:#E4E9EE;
+  --accent:#0056D2; --accent-soft:#E6EEFB; --pop:#0F9D8C; }          /* 학술·정규 과정 */
+body.t-cobalt{ --bg:#FFFFFF; --ink:#101828; --body:#38424F; --muted:#697586; --line:#E3E8EF;
+  --accent:#0F62FE; --accent-soft:#E5EEFF; --pop:#7132F5; }          /* 선명·기술 */
+
+/* ─ 보라·자주 ─ */
+body.t-violet{ --bg:#FFFFFF; --ink:#16162B; --body:#3B3B57; --muted:#74748F; --line:#E7E7F2;
+  --accent:#5A50E8; --accent-soft:#EDECFD; --pop:#00A9C4; }          /* 세련·특강 */
+
+/* ─ 주황·노랑 ─ */
+body.t-sunrise{ --bg:#FFFCF7; --ink:#2A2119; --body:#4B4034; --muted:#8B7D6C; --line:#EFE6D8;
+  --accent:#C2610F; --accent-soft:#FBEEDF; --pop:#E8A317; }          /* 따뜻·화사 · 초등 */
+body.t-mango{ --bg:#FFFFFF; --ink:#2B1E12; --body:#4C3C2C; --muted:#8A7866; --line:#F0E7DC;
+  --accent:#E2560A; --accent-soft:#FDEDE2; --pop:#F5B301; }          /* 활기·모집 */
+
+/* ─ 빨강 계열 ─ */
+body.t-focus{ --bg:#FFFFFF; --ink:#102A43; --body:#3A4A5C; --muted:#627D98; --line:#E6EBF0;
+  --accent:#D8151F; --accent-soft:#FCEAEB; --pop:#F08C00; }          /* 주목 · 모집·마감 */
+body.t-coral{ --bg:#FFFFFF; --ink:#22181B; --body:#463539; --muted:#8A7379; --line:#F0E5E7;
+  --accent:#E0244B; --accent-soft:#FDE9ED; --pop:#FF7A45; }          /* 따뜻한 주목 */
+
 :root{ --pop:var(--accent); }
 body.dark{ --pop:var(--accent); }
 
@@ -364,7 +378,7 @@ tr.hi td:first-child{font-weight:700;color:var(--ink)}
   <div class="pageno">10</div><div class="prog" style="width:100%"></div>
 </section>
 
-<div class="nav">← → 이동 · <span class="hint">F 전체화면 · P 인쇄(PDF) · <b>T 테마 바꾸기</b> · D 어둡게</span></div>
+<div class="nav">← → 이동 · <span class="hint">F 전체화면 · P 인쇄(PDF) · <b>T 테마</b> <span class="themename mono" style="color:#9FB0B4">trust</span> · D 어둡게</span></div>
 
 <script>
 const s=[...document.querySelectorAll('.slide')];let i=0;
@@ -376,10 +390,11 @@ addEventListener('keydown',e=>{
   if(e.key==='p'||e.key==='P'){e.preventDefault();print()}
   if(e.key==='d'||e.key==='D')document.body.classList.toggle('dark');
   if(e.key==='t'||e.key==='T'){
-    const th=['','t-fresh','t-learn','t-trust','t-focus','t-warm'];
-    const cur=th.findIndex(c=>c&&document.body.classList.contains(c));
-    th.filter(Boolean).forEach(c=>document.body.classList.remove(c));
-    const nx=th[(cur+1)%th.length]; if(nx)document.body.classList.add(nx);
+    const th=['t-trust','t-fresh','t-sprout','t-mint','t-forest','t-clear','t-friendly','t-academy','t-cobalt','t-violet','t-sunrise','t-mango','t-focus','t-coral'];
+    const cur=th.findIndex(c=>document.body.classList.contains(c));
+    th.forEach(c=>document.body.classList.remove(c));
+    const nx=th[(cur+1)%th.length]; document.body.classList.add(nx);
+    const n=document.querySelector('.themename'); if(n)n.textContent=nx.slice(2);
   }
 });
 new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)i=s.indexOf(e.target)}),{threshold:.6}).observe;
